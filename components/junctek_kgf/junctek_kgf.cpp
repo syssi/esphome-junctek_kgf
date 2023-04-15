@@ -158,6 +158,7 @@ bool JuncTekKGF::readline()
     if (readch > 0) {
       switch (readch) {
         case '\n': // Ignore new-lines
+          this->flush();
           break;
         case '\r': // Return on CR
           this->line_pos_ = 0;  // Reset position index ready for next time

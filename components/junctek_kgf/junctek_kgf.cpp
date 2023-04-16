@@ -157,9 +157,9 @@ bool JuncTekKGF::readline()
     const char readch = read();
     if (readch > 0) {
       switch (readch) {
-        case '\n': // Ignore new-lines
+        case '\r': // Ignore carriage return
           break;
-        case '\r': // Return on CR
+        case '\n': // Return on line feed
           this->line_pos_ = 0;  // Reset position index ready for next time
           return true;
         default:
@@ -188,24 +188,6 @@ bool JuncTekKGF::verify_checksum(int checksum, const char* buffer)
 
 void JuncTekKGF::loop()
 {
-  const unsigned long start_time = millis();
-
-  if (!this->last_settings_ || (*this->last_settings_ + (30 * 1000)) < start_time)
-  {
-    this->last_settings_ = start_time;
-    char buffer[20];
-    sprintf(buffer, ":R51=%d,2,1,\r\n", this->address_);
-    write_str(buffer);
-  }
-
-  if (!this->last_stats_ || (*this->last_stats_ + (10 * 1000)) < start_time)
-  {
-    this->last_stats_ = start_time;
-    char buffer[20];
-    sprintf(buffer, ":R50=%d,2,1,\r\n", this->address_);
-    write_str(buffer);
-  }
-
   if (readline())
   {
     handle_line();

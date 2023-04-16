@@ -157,9 +157,9 @@ bool JuncTekKGF::readline()
     const char readch = read();
     if (readch > 0) {
       switch (readch) {
-        case '\n': // Ignore new-lines
+        case '\r': // Ignore carriage return
           break;
-        case '\r': // Return on CR
+        case '\n': // Return on line feed
           this->line_pos_ = 0;  // Reset position index ready for next time
           return true;
         default:
